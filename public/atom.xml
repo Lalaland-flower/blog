@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://example.com</id>
+    <title>个人博客</title>
+    <updated>2026-06-20T00:00:00.000Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <author>
+        <name>博客作者</name>
+        <uri>https://example.com</uri>
+    </author>
+    <link rel="alternate" href="https://example.com"/>
+    <link rel="self" href="https://example.com/atom.xml"/>
+    <subtitle>技术分享与思考</subtitle>
+    <icon>https://example.com/favicon.ico</icon>
+    <rights>© 2026 个人博客</rights>
+    <entry>
+        <title type="html"><![CDATA[使用 React 19 构建现代 Web 应用]]></title>
+        <id>https://example.com/posts/2026-06-20-react-19-guide</id>
+        <link href="https://example.com/posts/2026-06-20-react-19-guide"/>
+        <updated>2026-06-20T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[React 19 带来了 Server Components、Actions 等重磅特性。本文从实际项目出发，分享如何使用 React 19 + TypeScript + Vite 构建高效的现代化前端应用。]]></summary>
+        <content type="html"><![CDATA[
+## 引言
+
+React 19 是 React 框架的一次重大更新，引入了多项革命性的改进。本文将从零开始，带你体验 React 19 的核心新特性。
+
+## 项目初始化
+
+使用 Vite 创建 React 19 项目非常简单：
+
+```bash
+npm create vite@latest my-app -- --template react-ts
+cd my-app
+npm install
+```
+
+## Server Components
+
+React 19 的 Server Components 允许组件在服务端渲染，减少客户端的 JavaScript 体积：
+
+```tsx
+// UserList.tsx - 这是一个 Server Component
+async function UserList() {
+  const users = await fetch('https://api.example.com/users').then(r => r.json());
+
+  return (
+    <ul>
+      {users.map(user => (
+        <li key={user.id}>{user.name}</li>
+      ))}
+    </ul>
+  );
+}
+```
+
+## Actions
+
+React 19 引入了 `useActionState` 和 `useFormStatus`，简化了表单处理：
+
+```tsx
+import { useActionState } from 'react';
+
+async function submitForm(prevState: any, formData: FormData) {
+  const name = formData.get('name');
+  // 处理表单数据
+  return { success: true, message: `你好，${name}！` };
+}
+
+function MyForm() {
+  const [state, formAction] = useActionState(submitForm, null);
+
+  return (
+    <form action={formAction}>
+      <input name="name" placeholder="输入你的名字" />
+      <button type="submit">提交</button>
+      {state?.message && <p>{state.message}</p>}
+    </form>
+  );
+}
+```
+
+## 改进的 Hooks
+
+### use() Hook
+
+新的 `use()` Hook 可以在组件中直接读取 Promise 和 Context：
+
+```tsx
+import { use, Suspense } from 'react';
+
+const fetchUser = fetch('/api/user').then(r => r.json());
+
+function UserProfile() {
+  const user = use(fetchUser);
+  return <div>{user.name}</div>;
+}
+```
+
+### useOptimistic
+
+乐观更新让用户体验更加流畅：
+
+```tsx
+const [optimisticMessages, addOptimisticMessage] = useOptimistic(
+  messages,
+  (state, newMessage) => [...state, { text: newMessage, sending: true }]
+);
+```
+
+## TypeScript 集成
+
+React 19 对 TypeScript 的支持更加完善。建议始终使用严格的 TypeScript 配置：
+
+```json
+{
+  "compilerOptions": {
+    "strict": true,
+    "jsx": "react-jsx"
+  }
+}
+```
+
+## 总结
+
+React 19 是一个令人兴奋的版本。Server Components 带来了性能革新，Actions 简化了数据流，新的 hooks 让开发体验更加流畅。建议尽快在新项目中尝试这些特性。
+]]></content>
+        <author>
+            <name>博客作者</name>
+            <uri>https://example.com</uri>
+        </author>
+        <category label="React"/>
+        <category label="react"/>
+        <category label="typescript"/>
+        <category label="vite"/>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Tailwind CSS 4 实战：从配置到进阶]]></title>
+        <id>https://example.com/posts/2026-06-18-tailwind-css-4-guide</id>
+        <link href="https://example.com/posts/2026-06-18-tailwind-css-4-guide"/>
+        <updated>2026-06-18T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Tailwind CSS 4 带来了全新的 CSS 驱动配置方式，摒弃了传统的 tailwind.config.js。本文分享实际迁移和使用经验，帮助你快速上手新版本的 Tailwind CSS。]]></summary>
+        <content type="html"><![CDATA[
+## 前言
+
+Tailwind CSS 4 是一次彻底的重新设计。最大的变化是：不再需要 `tailwind.config.js`，而是直接使用 CSS 进行配置。
+
+## 安装与配置
+
+```bash
+npm install tailwindcss @tailwindcss/vite
+```
+
+在 `vite.config.ts` 中配置：
+
+```ts
+import tailwindcss from '@tailwindcss/vite';
+
+export default defineConfig({
+  plugins: [react(), tailwindcss()],
+});
+```
+
+主 CSS 文件只需要一行：
+
+```css
+@import "tailwindcss";
+```
+
+## 暗色模式
+
+Tailwind 4 使用 CSS 自定义变体替代了 `darkMode: "class"` 配置：
+
+```css
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+```
+
+使用方式保持不变：
+
+```html
+<div class="bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
+  内容
+</div>
+```
+
+## 响应式设计
+
+Tailwind 4 的响应式断点仍然开箱即用：
+
+| 断点 | 最小宽度 | 适用设备 |
+|------|---------|---------|
+| `sm` | 640px | 大屏手机 |
+| `md` | 768px | 平板 |
+| `lg` | 1024px | 笔记本 |
+| `xl` | 1280px | 桌面 |
+| `2xl` | 1536px | 大屏桌面 |
+
+## Typography 插件
+
+文章排版可以使用 `@tailwindcss/typography` 插件：
+
+```css
+@plugin "@tailwindcss/typography";
+```
+
+```html
+<article class="prose prose-gray dark:prose-invert max-w-none">
+  <h1>标题</h1>
+  <p>正文内容…</p>
+</article>
+```
+
+`prose` 类会自动为文章内容提供优雅的排版样式，包括合适的字体大小、行高、间距等。
+
+## 实用技巧
+
+### 1. 自定义组件样式
+
+不要写一大堆工具类来创建可复用的组件，而是使用 `@apply`：
+
+```css
+@layer components {
+  .btn-primary {
+    @apply px-4 py-2 rounded-lg bg-indigo-600 text-white font-medium
+           hover:bg-indigo-700 transition-colors;
+  }
+}
+```
+
+### 2. 使用 CSS 变量
+
+```css
+@theme {
+  --color-primary: #6366f1;
+  --color-primary-dark: #4f46e5;
+}
+```
+
+### 3. 性能优化
+
+Tailwind 4 在构建时自动移除未使用的样式，生成的 CSS 文件通常只有几 KB。无需额外配置 PurgeCSS。
+
+## 总结
+
+Tailwind CSS 4 的 CSS 驱动配置方式更加现代和灵活。尽管 API 变化较大，但上手并不困难，而且构建速度和开发体验都有显著提升。
+]]></content>
+        <author>
+            <name>博客作者</name>
+            <uri>https://example.com</uri>
+        </author>
+        <category label="CSS"/>
+        <category label="tailwind"/>
+        <category label="css"/>
+        <category label="前端"/>
+    </entry>
+</feed>

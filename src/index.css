@@ -1,0 +1,80 @@
+@import "tailwindcss";
+@import "highlight.js/styles/github-dark-dimmed.css";
+
+@plugin "@tailwindcss/typography";
+
+/* ── 主题令牌 ── */
+@theme {
+  /* 强调色：抹茶绿 */
+  --color-matcha: #0EA57A;
+  --color-matcha-deep: #078C63;
+  --color-matcha-night: #34D399;
+  --color-matcha-night-deep: #6EE7B7;
+
+  /* 文字色：墨 */
+  --color-ink: #1C1917;
+  --color-ink-night: #E6EDF3;
+
+  /* 次要文字：石 */
+  --color-stone: #78716C;
+  --color-stone-night: #8B949E;
+
+  /* 表面/背景 */
+  --color-paper: #FCFCFA;
+  --color-surface-night: #161B22;
+
+  /* 分隔 */
+  --color-line: #E7E5E4;
+  --color-line-night: #21262D;
+
+  /* 衬线字体栈 */
+  --font-serif: "Noto Serif SC", "Source Han Serif SC", "Songti SC", serif;
+  --font-mono: "JetBrains Mono", "Fira Code", "Cascadia Code", "Consolas", monospace;
+}
+
+/* ── 暗色模式 ── */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ── 基础层 ── */
+@layer base {
+  body {
+    @apply bg-paper text-ink dark:bg-gray-950 dark:text-ink-night;
+    font-feature-settings: "kern" 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* 衬线标题：这是设计的签名元素 */
+  h1, h2, h3 {
+    font-family: var(--font-serif);
+  }
+
+  /* 键盘焦点可见 */
+  :focus-visible {
+    outline: 2px solid var(--color-matcha);
+    outline-offset: 2px;
+  }
+}
+
+/* ── 文章排版（复用衬线标题） ── */
+@layer components {
+  .prose {
+    @apply text-ink dark:text-ink-night;
+  }
+  .prose h1,
+  .prose h2,
+  .prose h3,
+  .prose h4 {
+    font-family: var(--font-serif);
+    @apply font-semibold tracking-tight;
+  }
+  .prose a {
+    @apply text-matcha dark:text-matcha-night no-underline hover:underline;
+  }
+  .prose code {
+    font-family: var(--font-mono);
+  }
+  .prose pre {
+    font-family: var(--font-mono);
+  }
+}

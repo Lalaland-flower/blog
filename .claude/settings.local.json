@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git --version)",
+      "Bash(npx skills *)",
+      "Bash(npx tsc *)",
+      "Bash(npx vite *)",
+      "mcp__fetch__fetch",
+      "Bash(claude plugin *)",
+      "Read(//c/Users/18578/.claude/skills/**)",
+      "Read(//c/Users/18578/.claude/plugins/**)",
+      "Read(//c/Users/18578/.claude/**)",
+      "Read(//mnt/c/Users/18578/**)",
+      "Bash(npm run *)",
+      "Bash(git init *)",
+      "Bash(git add *)",
+      "Bash(git commit *)"
+    ]
+  }
+}
