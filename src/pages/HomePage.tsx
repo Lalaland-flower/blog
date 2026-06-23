@@ -1,61 +1,25 @@
-import { useSearchParams } from 'react-router-dom';
-import { getAllPosts } from '../lib/posts';
-import { paginate } from '../lib/utils';
-import { PostList } from '../components/post/PostList';
 import { SEO } from '../components/common/SEO';
 
-const PER_PAGE = 10;
-
 export function HomePage() {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const page = parseInt(searchParams.get('page') ?? '1', 10);
-
-  const allPosts = getAllPosts();
-  const { items, totalPages, currentPage } = paginate(allPosts, page, PER_PAGE);
-
-  const goTo = (p: number) => {
-    setSearchParams(p > 1 ? { page: String(p) } : {});
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
   return (
     <>
       <SEO title="首页" />
-      <section>
-        <h1 className="text-2xl font-serif font-bold mb-8 text-ink dark:text-ink-night tracking-tight">
-          最新文章
-        </h1>
-        <PostList posts={items} />
+      <section className="flex items-center justify-center min-h-[70vh]">
+        <div className="text-center max-w-lg">
+          <h1 className="text-2xl font-serif font-bold text-ink dark:text-ink-night mb-2 tracking-wider">
+            锦瑟
+          </h1>
+          <p className="text-sm text-stone dark:text-stone-night mb-10 tracking-widest">
+            李商隐
+          </p>
 
-        {totalPages > 1 && (
-          <div className="flex items-center justify-center gap-4 mt-12">
-            <button
-              onClick={() => goTo(currentPage - 1)}
-              disabled={currentPage <= 1}
-              className="px-4 py-2 text-sm rounded-lg border border-line dark:border-line-night
-                         disabled:opacity-30 disabled:cursor-not-allowed font-serif
-                         hover:border-matcha/40 dark:hover:border-matcha-night/30
-                         hover:text-matcha dark:hover:text-matcha-night
-                         transition-all"
-            >
-              上一页
-            </button>
-            <span className="text-sm text-stone dark:text-stone-night tabular-nums">
-              {currentPage} / {totalPages}
-            </span>
-            <button
-              onClick={() => goTo(currentPage + 1)}
-              disabled={currentPage >= totalPages}
-              className="px-4 py-2 text-sm rounded-lg border border-line dark:border-line-night
-                         disabled:opacity-30 disabled:cursor-not-allowed font-serif
-                         hover:border-matcha/40 dark:hover:border-matcha-night/30
-                         hover:text-matcha dark:hover:text-matcha-night
-                         transition-all"
-            >
-              下一页
-            </button>
+          <div className="space-y-3 text-lg font-serif text-ink dark:text-ink-night leading-loose tracking-wide">
+            <p>锦瑟无端五十弦，一弦一柱思华年。</p>
+            <p>庄生晓梦迷蝴蝶，望帝春心托杜鹃。</p>
+            <p>沧海月明珠有泪，蓝田日暖玉2222生烟。</p>
+            <p>此情可待成追忆，只是当时已惘111然。</p>
           </div>
-        )}
+        </div>
       </section>
     </>
   );

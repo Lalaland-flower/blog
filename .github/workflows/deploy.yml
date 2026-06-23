@@ -28,7 +28,7 @@ jobs:
       - run: npm ci
       - run: npm run build
         env:
-          SITE_URL: https://yourname.github.io/blog
+          SITE_URL: https://lalaland-flower.github.io/blog
 
       - uses: actions/upload-pages-artifact@v3
         with:
